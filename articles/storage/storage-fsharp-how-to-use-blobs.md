@@ -84,7 +84,7 @@ Now you are ready to write code that reads data from and writes data to Blob sto
 This example shows how to create a container if it does not already exist:
 
     let storageConnString = "..." // fill this in from your storage account settings, see above
-    
+
     // Retrieve storage account from connection string.
     let storageAccount = CloudStorageAccount.Parse(storageConnString)
 
@@ -116,7 +116,7 @@ or overwrite it if it does exist.
 The following example shows how to upload a blob into a container and assumes that the container was already created.
 
     let storageConnString = "..." // fill this in from your storage account settings, see above
-    
+
     // Retrieve storage account from connection string.
     let storageAccount = CloudStorageAccount.Parse(storageConnString)
 
@@ -146,18 +146,18 @@ demonstrates how to retrieve and output the URI of each item in
 the `photos` container:
 
     let storageConnString = "..." // fill this in from your storage account settings, see above
-    
+
     // Retrieve storage account from connection string.
     let storageAccount = CloudStorageAccount.Parse(storageConnString)
 
     // Create the blob client.
-	  let blobClient = storageAccount.CreateCloudBlobClient()
+    let blobClient = storageAccount.CreateCloudBlobClient()
 
     // Retrieve reference to a previously created container.
-	  let container = blobClient.GetContainerReference("photos");
+    let container = blobClient.GetContainerReference("photos");
 
     // Loop over items within the container and output the length and URI.
-	  for item in container.ListBlobs(null, false) do
+    for item in container.ListBlobs(null, false) do
         match item with 
         | :? CloudBlockBlob as blob -> 
             Console.WriteLine("Block blob of length {0}: {1}", blob.Properties.Length, blob.Uri)
@@ -214,7 +214,7 @@ example uses the **DownloadToStream** method to transfer the blob
 contents to a stream object that you can then persist to a local file.
 
     let storageConnString = "..." // fill this in from your storage account settings, see above
-    
+
     // Retrieve storage account from connection string.
     let storageAccount = CloudStorageAccount.Parse(storageConnString)
 
@@ -235,7 +235,7 @@ contents to a stream object that you can then persist to a local file.
 You can also use the **DownloadToStream** method to download the contents of a blob as a text string.
 
     let storageConnString = "..." // fill this in from your storage account settings, see above
-    
+
     // Retrieve storage account from connection string.
     let storageAccount = CloudStorageAccount.Parse(storageConnString)
 
@@ -245,10 +245,10 @@ You can also use the **DownloadToStream** method to download the contents of a b
     // Retrieve reference to a previously created container.
     let container = blobClient.GetContainerReference("mycontainer")
 
-  	// Retrieve reference to a blob named "myblob.txt"
-	  let blockBlob2 = container.GetBlockBlobReference("myblob.txt")
+    // Retrieve reference to a blob named "myblob.txt"
+    let blockBlob2 = container.GetBlockBlobReference("myblob.txt")
 
-  	let text =
+    let text =
         use memoryStream = new MemoryStream()
         blockBlob2.DownloadToStream(memoryStream)
         System.Text.Encoding.UTF8.GetString(memoryStream.ToArray())
@@ -259,7 +259,7 @@ To delete a blob, first get a blob reference and then call the
 **Delete** method on it.
 
     let storageConnString = "..." // fill this in from your storage account settings, see above
-    
+
     // Retrieve storage account from connection string.
     let storageAccount = CloudStorageAccount.Parse(storageConnString)
 
@@ -324,7 +324,7 @@ Each block in an append blob can be a different size, up to a maximum of 4 MB, a
 The example below creates a new append blob and appends some data to it, simulating a simple logging operation.
 
     let storageConnString = "..." // fill this in from your storage account settings, see above
-    
+
     // Retrieve storage account from connection string.
     let storageAccount = CloudStorageAccount.Parse(storageConnString)
 
