@@ -21,7 +21,7 @@ Now generate include scripts for the packages:
 
 From your F# script you can now reference all necessary packages as follows:
 
-    #load @"paket-files/include-scripts/net45/include.windowsazure.storage.fsx"
+    #load "paket-files/include-scripts/net45/include.windowsazure.storage.fsx"
 
 If using `nuget.exe` as your dependency manager, install and reference the `WindowsAzure.Storage` package, then add references
 to all necessary DLLs.
