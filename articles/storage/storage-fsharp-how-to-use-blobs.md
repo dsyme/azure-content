@@ -93,8 +93,6 @@ Now you are ready to write code that reads data from and writes data to Blob sto
 
 ## Create a container
 
-[AZURE.INCLUDE [storage-container-naming-rules-include](../../includes/storage-container-naming-rules-include.md)]
-
 This example shows how to create a container if it does not already exist:
 
     let storageConnString = "..." // fill this in from your storage account settings, see above
@@ -379,6 +377,10 @@ See [Understanding Block Blobs, Page Blobs, and Append Blobs](https://msdn.micro
 By default, Azure Storage keeps your data secure by limiting access to the account owner, who is in possession of the account access keys. When you need to share blob data in your storage account, it is important to do so without compromising the security of your account access keys. Additionally, you can encrypt blob data to ensure that it is secure going over the wire and in Azure Storage.
 
 [AZURE.INCLUDE [storage-account-key-note-include](../../includes/storage-account-key-note-include.md)]
+
+### Naming containers
+
+[AZURE.INCLUDE [storage-container-naming-rules-include](../../includes/storage-container-naming-rules-include.md)]
 
 ### Controlling access to blob data
 
