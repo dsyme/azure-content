@@ -1,5 +1,6 @@
 > [AZURE.SELECTOR]
 - [.NET](../articles/storage/storage-dotnet-how-to-use-blobs.md)
+- [F#](../articles/storage/storage-fsharp-how-to-use-blobs.md)
 - [Node.js](../articles/storage/storage-nodejs-how-to-use-blob-storage.md)
 - [Java](../articles/storage/storage-java-how-to-use-blob-storage.md)
 - [C++](../articles/storage/storage-c-plus-plus-how-to-use-blobs.md)
