@@ -1,8 +1,11 @@
 
-Sometime in October/November we will take a crack at preparing comprehensive docs for F# for some core Azure topics, where there is 
-value in having thse distinct from the existing .NET (really C#) docs.
+The core experience of getting started with Azure and F# is not very positive, because all existing documentation only covers C#.  This is usually done in a very C#/VisualStudio-centric way, catering for a particular wizard-first C# developer.  The documentation is not at all suitable for code-first F# developers.
 
-Below is a list of the pages which would need an "F#" tab (and we may encourage Azure to rename ".NET" to "C#" or "C#/VB" in these cases)
+Sometime in October/November we will take a crack at preparing comprehensive docs for F# for some core Azure topics, where there is 
+value in having thse distinct from the existing .NET/C# docs.
+
+Below is a list of the pages which may  need an "F#" tab or might benefit from F# content. We may encourage Azure to rename ".NET" to "C#" or "C#/VB" in these cases.
+
 
 ## Storage
 
