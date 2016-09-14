@@ -6,33 +6,37 @@ Below is a list of the pages which would need an "F#" tab (and we may encourage 
 
 ## Storage
 
-* Blobs https://azure.microsoft.com/en-us/documentation/articles/storage-dotnet-how-to-use-blobs/
-* Files https://github.com/Azure/azure-content/blob/master/articles/storage/storage-dotnet-how-to-use-files.md
-* Queues https://github.com/Azure/azure-content/blob/master/articles/storage/storage-dotnet-how-to-use-queues.md
-* Tables https://github.com/Azure/azure-content/blob/master/articles/storage/storage-dotnet-how-to-use-tables.md
-* Shared Access Signature 
-	
-	   https://github.com/Azure/azure-content/blob/master/articles/storage/storage-dotnet-shared-access-signature-part-1.md
-	   https://github.com/Azure/azure-content/blob/master/articles/storage/storage-dotnet-shared-access-signature-part-2.md
-
+- [ ] [Blobs](https://azure.microsoft.com/en-us/documentation/articles/storage-dotnet-how-to-use-blobs/)
+- [ ] [Files](https://github.com/Azure/azure-content/blob/master/articles/storage/storage-dotnet-how-to-use-files.md)
+- [ ] [Queues](https://github.com/Azure/azure-content/blob/master/articles/storage/storage-dotnet-how-to-use-queues.md)
+- [ ] [Tables](https://github.com/Azure/azure-content/blob/master/articles/storage/storage-dotnet-how-to-use-tables.md)
+- [ ] [Shared Access Signature Part 1](https://github.com/Azure/azure-content/blob/master/articles/storage/storage-dotnet-shared-access-signature-part-1.md)
+- [ ] [Shared Access Signature Part 2](https://github.com/Azure/azure-content/blob/master/articles/storage/storage-dotnet-shared-access-signature-part-2.md)
 
 ## WebApps and AppService
 
-* AppService get started: https://github.com/Azure-Samples/app-service-web-dotnet-get-started
-* Add link here: https://azure.microsoft.com/en-us/documentation/articles/app-service-web-get-started/
+- [ ] [AppService get started](https://github.com/Azure-Samples/app-service-web-dotnet-get-started)
+- [ ] [Add link here](https://azure.microsoft.com/en-us/documentation/articles/app-service-web-get-started/)
+
+Other AppService topics:
+* https://github.com/Azure/azure-content/blob/master/articles/app-service-api/app-service-api-dotnet-get-started.md
+* https://github.com/Azure/azure-content/blob/master/articles/app-service-api/app-service-api-dotnet-service-principal-auth.md
+* https://github.com/Azure/azure-content/blob/master/articles/app-service-api/app-service-api-dotnet-swashbuckle-customize.md
+* https://github.com/Azure/azure-content/blob/master/articles/app-service-api/app-service-api-dotnet-triggers.md
+* https://github.com/Azure/azure-content/blob/master/articles/app-service-api/app-service-api-dotnet-user-principal-auth.md
 
 ## WebSites
 
-* WebSites get started https://azure.microsoft.com/en-us/documentation/articles/web-sites-dotnet-get-started/
+- [ ] [WebSites get started](https://azure.microsoft.com/en-us/documentation/articles/web-sites-dotnet-get-started/)
 
 ## WebJobs
 
-* https://azure.microsoft.com/en-us/documentation/articles/websites-dotnet-webjobs-sdk-get-started/
+- [ ] [WebJobs get started](https://azure.microsoft.com/en-us/documentation/articles/websites-dotnet-webjobs-sdk-get-started/)
 
 ## MobileApps
 
-* Xamarin.Android: https://azure.microsoft.com/en-us/documentation/articles/app-service-mobile-xamarin-android-get-started/ 
-* Xamarin.Forms: https://azure.microsoft.com/en-us/documentation/articles/app-service-mobile-xamarin-forms-get-started/
+- [ ] [Xamarin.Android get started](https://azure.microsoft.com/en-us/documentation/articles/app-service-mobile-xamarin-android-get-started/)
+- [ ] [Xamarin.Forms get started](https://azure.microsoft.com/en-us/documentation/articles/app-service-mobile-xamarin-forms-get-started/)
 
 ## SQL Database
 
@@ -46,14 +50,14 @@ Below is a list of the pages which would need an "F#" tab (and we may encourage 
 
 ## Azure Batch
 
-*	https://github.com/Azure/azure-content/blob/master/articles/batch/batch-dotnet-get-started.md
-*	https://github.com/Azure/azure-content/blob/master/articles/batch/batch-management-dotnet.md
+- [ ] [Azure Batch get started](https://github.com/Azure/azure-content/blob/master/articles/batch/batch-dotnet-get-started.md)
+- [ ] [Azure Batch Management from .NET](https://github.com/Azure/azure-content/blob/master/articles/batch/batch-management-dotnet.md)
 
 ## Azure Cache - Retired
 	
 ## Azure CDN
 
-* https://github.com/Azure/azure-content/blob/master/articles/cdn/cdn-app-dev-net.md
+- [ ] [Azure CDN App Dev](https://github.com/Azure/azure-content/blob/master/articles/cdn/cdn-app-dev-net.md)
 
 ## Other Articles
 
@@ -64,8 +68,3 @@ Below is a list of the pages which would need an "F#" tab (and we may encourage 
 * https://github.com/dsyme/azure-content/blob/master/articles/twilio-dotnet-how-to-use-for-voice-sms.md
 * https://github.com/dsyme/azure-content/blob/master/articles/virtual-machines-dotnet-diagnostics.md
 * https://github.com/Azure/azure-content/blob/master/articles/active-directory/active-directory-devquickstarts-dotnet.md
-* https://github.com/Azure/azure-content/blob/master/articles/app-service-api/app-service-api-dotnet-get-started.md
-* https://github.com/Azure/azure-content/blob/master/articles/app-service-api/app-service-api-dotnet-service-principal-auth.md
-* https://github.com/Azure/azure-content/blob/master/articles/app-service-api/app-service-api-dotnet-swashbuckle-customize.md
-* https://github.com/Azure/azure-content/blob/master/articles/app-service-api/app-service-api-dotnet-triggers.md
-* https://github.com/Azure/azure-content/blob/master/articles/app-service-api/app-service-api-dotnet-user-principal-auth.md
