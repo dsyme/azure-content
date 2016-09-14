@@ -31,29 +31,29 @@ Azure Blob storage is a service that stores unstructured data in the cloud as ob
 
 This article shows you how to perform common scenarios using Blob storage. The samples are written using F# using the Azure Storage Client Library for .NET. The scenarios covered include how to upload, list, download, and delete blobs.
 
-## Conceptual overview
+### Conceptual overview
 
 For a conceptual overview of blob storage, see [the C# guide for blob storage](storage-csharp-how-to-use-blobs)
 
-## Create an Azure storage account
+### Create an Azure storage account
 
 To use this guide, you must first [create an Azure storage account](storage-create-storage-account.md#create-a-storage-account).
 
 ## Create an F# Script and Start F# Interactive
 
 The samples in this article can be used in either an F# application or an F# script.
-To create an F# script, 
+To create an F# script, create a file `blobs.fsx` in your F# development environment.
 
 ### Use Nuget or Paket to obtain the package
 
-If using [Paket](https://fsprojects.github.io/Paket/) as your dependency manager, install the `paket.exe` tool and resolve the `WindowsAzure.Storage` package:
+If using [Paket](https://fsprojects.github.io/Paket/) as your dependency manager, install the `paket.exe` tool and resolve the `WindowsAzure.Storage` dependency. For example, `paket.dependencies` may contain:
 
     frameworks: net45
     source https://nuget.org/api/v2
 
     nuget WindowsAzure.Storage
 
-Now resolve and install the packages:
+Now resolve and install these dependencies:
 
     > paket install
 
@@ -65,7 +65,7 @@ Now generate include scripts for the packages:
 
     generating scripts for framework net45
 
-Now reference the packages from your F# script:
+From your F# script you can now reference all necessary packages as follows:
 
     #load @"paket-files/include-scripts/net45/include.windowsazure.storage.fsx"
 
