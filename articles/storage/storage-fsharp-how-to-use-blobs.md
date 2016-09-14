@@ -37,43 +37,57 @@ The samples in this article can be used in either an F# application or an F# scr
 For instructions on how to create an F# application, see [Create an F# application in Azure App Service](TBD).
 For instructions on how to create an F# script, see [Create an F# script accessing Azure Storage](TBD).
 
-**Prerequisities:**
-
-- An [Azure storage account](storage-create-storage-account.md#create-a-storage-account)
-
 ### Use Nuget or Paket to obtain the package
 
 TBD. Obtain [Azure Storage Client Library for .NET](https://www.nuget.org/packages/WindowsAzure.Storage/)
 
 [AZURE.INCLUDE [storage-dotnet-client-library-version-include](../../includes/storage-dotnet-client-library-version-include.md)]
 
-### More samples
-
-For additional examples using Blob storage with .NET, see the C# sampe [Getting Started with Azure Blob Storage in .NET](https://azure.microsoft.com/documentation/samples/storage-blob-dotnet-getting-started/). You can download the sample application and run it, or browse the code on GitHub. 
-
 [AZURE.INCLUDE [storage-blob-concepts-include](../../includes/storage-blob-concepts-include.md)]
 
 [AZURE.INCLUDE [storage-create-account-include](../../includes/storage-create-account-include.md)]
 
-[AZURE.INCLUDE [storage-development-environment-include](../../includes/storage-development-environment-include.md)]
-
 ### Add namespace declarations
 
-Add the following `open` statements to the top of the `program.cs` file:
+Add the following `open` statements to the top of the `Program.fs` or `Script.fsx` file:
 
     open Microsoft.Azure // Namespace for CloudConfigurationManager
     open Microsoft.WindowsAzure.Storage // Namespace for CloudStorageAccount
     open Microsoft.WindowsAzure.Storage.Blob // Namespace for Blob storage types
 
+### Get your connection string
+
+For the purposes of this tutorial, you will enter your storage connection string directly into a script.
+For more information about connection strings, see [Configure a Connection String to Azure Storage](TBD).
+
+    let storageConnString = "..." // fill this in from your storage account
+
+> Your storage account key is similar to the root password for your storage account. Always be careful to protect
+> your storage account key. Avoid distributing it to other users, hard-coding it, or saving it in a plain-text file
+> that is accessible to others. Regenerate your key using the Azure Portal if you believe it may have been compromised.
+
+For applications, the best way to maintain your storage connection string is in a configuration file.
+You can use the **CloudConfigurationManager** class to fetch configuration settings regardless of whether the client application is running on the desktop, on a mobile device, in an Azure virtual machine, or in an Azure cloud service.
+
+To fetch the connection string from a configuration file, use:
+
+    // Parse the connection string and return a reference to the storage account.
+    let storageConnString = CloudConfigurationManager.GetSetting("StorageConnectionString")
+
 ### Parse the connection string
 
-[AZURE.INCLUDE [storage-cloud-configuration-manager-include](../../includes/storage-cloud-configuration-manager-include.md)]
+To parse the connection strinng, use:
+
+    // Parse the connection string and return a reference to the storage account.
+    let storageAccount = CloudStorageAccount.Parse(storageConnString)
+
+Using Azure Configuration Manager is optional. You can also use an API such as the .NET Framework's **ConfigurationManager** class.
 
 ### Create the Blob service client
 
 The **CloudBlobClient** class enables you to retrieve containers and blobs stored in Blob storage. Here's one way to create the service client:
 
-    let blobClient = storageAccount.CreateCloudBlobClient();
+    let blobClient = storageAccount.CreateCloudBlobClient()
 
 Now you are ready to write code that reads data from and writes data to Blob storage.
 
