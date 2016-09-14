@@ -70,7 +70,7 @@ To fetch the connection string from a configuration file, use:
     // Parse the connection string and return a reference to the storage account.
     let storageConnString = CloudConfigurationManager.GetSetting("StorageConnectionString")
 
-Using Azure Configuration Manager is optional. You can also use an API such as the .NET Framework's **ConfigurationManager** class.
+Using Azure Configuration Manager is optional. You can also use an API such as the .NET Framework's **ConfigurationManager** type.
 
 ### Parse the connection string
 
@@ -81,7 +81,7 @@ To parse the connection string, use:
 
 ### Create the Blob service client
 
-The **CloudBlobClient** class enables you to retrieve containers and blobs stored in Blob storage. Here's one way to create the service client:
+The **CloudBlobClient** type enables you to retrieve containers and blobs stored in Blob storage. Here's one way to create the service client:
 
     let blobClient = storageAccount.CreateCloudBlobClient()
 
