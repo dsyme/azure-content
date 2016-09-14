@@ -33,7 +33,7 @@ This article shows you how to perform common scenarios using Blob storage. The s
 
 ### Conceptual overview
 
-For a conceptual overview of blob storage, see [the .NET guide for blob storage](storage-dotnet-how-to-use-blobs.md)
+For a conceptual overview of blob storage, see [the .NET guide for blob storage](storage-dotnet-how-to-use-blobs.md#conceptual-overview)
 
 ### Create an Azure storage account
 
@@ -315,20 +315,7 @@ To support concurrent access to a blob from multiple clients or multiple process
 
 * **Lease** - provides a way to obtain exclusive, renewable, write or delete access to a blob for a period of time
 
-### ETag
-
-Use ETags if you need to allow multiple clients or instances to write to the block Blob or page Blob simultaneously. The ETag allows you to determine if the container or blob was modified since you initially read or created it, which allows you to avoid overwriting changes committed by another client or process.
-
-TBD
-
-### Lease
-
-You can acquire a new lease by using the **acquireLease** method, specifying the blob or container that you wish to obtain a lease on. For example, the following code acquires a lease on **myblob**.
-
-TBD
-
-> [AZURE.NOTE] By default, the lease duration is infinite. You can specify a non-infinite duration (between 15 and 60 seconds) by providing the `LeaseDuration` parameter.
-
+For further information see [Managing Concurrency in Microsoft Azure Storage](https://azure.microsoft.com/en-us/blog/managing-concurrency-in-microsoft-azure-storage-2/).
 
 ## Naming containers
 
@@ -342,18 +329,16 @@ By default, Azure Storage keeps your data secure by limiting access to the accou
 
 ### Controlling access to blob data
 
-By default, the blob data in your storage account is accessible only to storage account owner. Authenticating requests against Blob storage requires the account access key by default. However, you may wish to make certain blob data available to other users. You have two options:
+By default, the blob data in your storage account is accessible only to storage account owner. Authenticating requests against Blob storage requires the account access key by default. However, you may wish to make certain blob data available to other users. 
 
-- **Anonymous access:** You can make a container or its blobs publicly available for anonymous access. See [Manage anonymous read access to containers and blobs](storage-manage-access-to-resources.md) for more information.
-- **Shared access signatures:** You can provide clients with a shared access signature (SAS), which provides delegated access to a resource in your storage account, with permissions that you specify and over an interval that you specify. See [Using Shared Access Signatures from C# (SAS)](storage-dotnet-shared-access-signature-part-1.md) for more information.
+For details on how to control access to blob storage, see [the .NET guide for blob storage](storage-dotnet-how-to-use-blobs.md#controlling-access-to-blob-data).
 
 
 ### Encrypting blob data
 
-Azure Storage supports encrypting blob data both at the client and on the server:
+Azure Storage supports encrypting blob data both at the client and on the server.
 
-- **Client-side encryption:** The Storage Client Library for .NET supports encrypting data within client applications before uploading to Azure Storage, and decrypting data while downloading to the client. The library also supports integration with Azure Key Vault for storage account key management. See [Client-Side Encryption with .NET for Microsoft Azure Storage](storage-client-side-encryption.md) for more information. Also see [Tutorial: Encrypt and decrypt blobs in Microsoft Azure Storage using Azure Key Vault](storage-encrypt-decrypt-blobs-key-vault.md).
-- **Server-side encryption**: Azure Storage now supports server-side encryption. See [Azure Storage Service Encryption for Data at Rest (Preview)](storage-service-encryption.md). 
+For details on encrypting blob data, see [the .NET guide for blob storage](storage-dotnet-how-to-use-blobs.md#encrypting-blob-data).
 
 ## Next steps
 
