@@ -93,14 +93,6 @@ Now you are ready to write code that reads data from and writes data to Blob sto
 
 This example shows how to create a container if it does not already exist:
 
-    let storageConnString = "..." // fill this in from your storage account settings, see above
-
-    // Retrieve storage account from connection string.
-    let storageAccount = CloudStorageAccount.Parse(storageConnString)
-
-    // Create the blob client.
-    let blobClient = storageAccount.CreateCloudBlobClient()
-
     // Retrieve a reference to a container.
     let container = blobClient.GetContainerReference("mycontainer")
 
@@ -110,6 +102,7 @@ This example shows how to create a container if it does not already exist:
 By default, the new container is private, meaning that you must specify your storage access key to download blobs from this container. If you want to make the files within the container available to everyone, you can set the container to be public using the following code:
 
     let permissions = BlobContainerPermissions(PublicAccess = BlobContainerPublicAccessType.Blob)
+
     container.SetPermissions(permissions)
 
 Anyone on the Internet can see blobs in a public container, but you can modify or delete them only if you have the appropriate account access key or a shared access signature.
@@ -124,17 +117,6 @@ stream of data to it by calling the **UploadFromStream** method. This operation 
 or overwrite it if it does exist.
 
 The following example shows how to upload a blob into a container and assumes that the container was already created.
-
-    let storageConnString = "..." // fill this in from your storage account settings, see above
-
-    // Retrieve storage account from connection string.
-    let storageAccount = CloudStorageAccount.Parse(storageConnString)
-
-    // Create the blob client.
-    let blobClient = storageAccount.CreateCloudBlobClient()
-
-    // Retrieve reference to a previously created container.
-    let container = blobClient.GetContainerReference("mycontainer")
 
     // Retrieve reference to a blob named "myblob".
     let blockBlob = container.GetBlockBlobReference("myblob")
@@ -155,19 +137,11 @@ type check to determine which to cast it to.  The following code
 demonstrates how to retrieve and output the URI of each item in
 the `photos` container:
 
-    let storageConnString = "..." // fill this in from your storage account settings, see above
-
-    // Retrieve storage account from connection string.
-    let storageAccount = CloudStorageAccount.Parse(storageConnString)
-
-    // Create the blob client.
-    let blobClient = storageAccount.CreateCloudBlobClient()
-
     // Retrieve reference to a previously created container.
-    let container = blobClient.GetContainerReference("photos");
+    let photosContainer = blobClient.GetContainerReference("photos")
 
     // Loop over items within the container and output the length and URI.
-    for item in container.ListBlobs(null, false) do
+    for item in photosContainer.ListBlobs(null, false) do
         match item with 
         | :? CloudBlockBlob as blob -> 
             Console.WriteLine("Block blob of length {0}: {1}", blob.Properties.Length, blob.Uri)
@@ -223,17 +197,6 @@ To download blobs, first retrieve a blob reference and then call the **DownloadT
 example uses the **DownloadToStream** method to transfer the blob
 contents to a stream object that you can then persist to a local file.
 
-    let storageConnString = "..." // fill this in from your storage account settings, see above
-
-    // Retrieve storage account from connection string.
-    let storageAccount = CloudStorageAccount.Parse(storageConnString)
-
-    // Create the blob client.
-    let  blobClient = storageAccount.CreateCloudBlobClient()
-
-    // Retrieve reference to a previously created container.
-    let container = blobClient.GetContainerReference("mycontainer")
-
     // Retrieve reference to a blob named "photo1.jpg".
     let blockBlob = container.GetBlockBlobReference("photo1.jpg")
 
@@ -243,17 +206,6 @@ contents to a stream object that you can then persist to a local file.
         blockBlob.DownloadToStream(fileStream);
 
 You can also use the **DownloadToStream** method to download the contents of a blob as a text string.
-
-    let storageConnString = "..." // fill this in from your storage account settings, see above
-
-    // Retrieve storage account from connection string.
-    let storageAccount = CloudStorageAccount.Parse(storageConnString)
-
-    // Create the blob client.
-    let blobClient = storageAccount.CreateCloudBlobClient()
-
-    // Retrieve reference to a previously created container.
-    let container = blobClient.GetContainerReference("mycontainer")
 
     // Retrieve reference to a blob named "myblob.txt"
     let blockBlob2 = container.GetBlockBlobReference("myblob.txt")
@@ -267,14 +219,6 @@ You can also use the **DownloadToStream** method to download the contents of a b
 
 To delete a blob, first get a blob reference and then call the
 **Delete** method on it.
-
-    let storageConnString = "..." // fill this in from your storage account settings, see above
-
-    // Retrieve storage account from connection string.
-    let storageAccount = CloudStorageAccount.Parse(storageConnString)
-
-    // Create the blob client.
-    let blobClient = storageAccount.CreateCloudBlobClient()
 
     // Retrieve reference to a previously created container.
     let container = blobClient.GetContainerReference("mycontainer")
@@ -292,8 +236,6 @@ If you are listing a large number of blobs, or you want to control the number of
 This example shows a flat blob listing, but you can also perform a hierarchical listing, by setting the `useFlatBlobListing` parameter of the **ListBlobsSegmentedAsync** method to `false`.
 
 Because the sample method calls an asynchronous method, it must be prefaced with the `async` keyword, and it must return a **Task** object. The await keyword specified for the **ListBlobsSegmentedAsync** method suspends execution of the sample method until the listing task completes.
-
-TBD
 
     let ListBlobsSegmentedInFlatListing(container:CloudBlobContainer) =
       async {
@@ -337,19 +279,14 @@ Each block in an append blob can be a different size, up to a maximum of 4 MB, a
 
 The example below creates a new append blob and appends some data to it, simulating a simple logging operation.
 
-    let storageConnString = "..." // fill this in from your storage account settings, see above
-
-    // Retrieve storage account from connection string.
-    let storageAccount = CloudStorageAccount.Parse(storageConnString)
-
     //Get a reference to a container.
-    let container = blobClient.GetContainerReference("my-append-blobs")
+    let appendContainer = blobClient.GetContainerReference("my-append-blobs")
 
     //Create the container if it does not already exist.
-    container.CreateIfNotExists()
+    appendContainer.CreateIfNotExists()
 
     //Get a reference to an append blob.
-    let appendBlob = container.GetAppendBlobReference("append-blob.log")
+    let appendBlob = appendContainer.GetAppendBlobReference("append-blob.log")
 
     //Create the append blob. Note that if the blob already exists, the CreateOrReplace() method will overwrite it.
     //You can check whether the blob exists to avoid overwriting it by using CloudAppendBlob.Exists().
