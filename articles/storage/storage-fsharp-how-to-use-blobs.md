@@ -51,6 +51,8 @@ To create an F# script, create a file `blobs.fsx` in your F# development environ
 
 Add the following `open` statements to the top of the `blobs.fsx` file:
 
+    open System
+    open System.IO
     open Microsoft.Azure // Namespace for CloudConfigurationManager
     open Microsoft.WindowsAzure.Storage // Namespace for CloudStorageAccount
     open Microsoft.WindowsAzure.Storage.Blob // Namespace for Blob storage types
@@ -148,7 +150,10 @@ the `photos` container:
             Console.WriteLine("Page blob of length {0}: {1}", pageBlob.Properties.Length, pageBlob.Uri)
 
         | :? CloudBlobDirectory as directory ->
-            Console.WriteLine("Directory: {0}", directory.Uri);
+            Console.WriteLine("Directory: {0}", directory.Uri)
+
+        | _ ->
+            Console.WriteLine("Unknown blob type: {0}", item.GetType().ToString())
 
 As shown above, you can name blobs with path information in their names. This creates a virtual directory structure that you can organize and traverse as you would a traditional file system. Note that the directory structure is virtual only - the only resources available in Blob storage are containers and blobs. However, the storage client library offers a **CloudBlobDirectory** object to refer to a virtual directory and simplify the process of working with blobs that are organized in this way.
 
@@ -196,21 +201,21 @@ example uses the **DownloadToStream** method to transfer the blob
 contents to a stream object that you can then persist to a local file.
 
     // Retrieve reference to a blob named "photo1.jpg".
-    let blockBlob = container.GetBlockBlobReference("photo1.jpg")
+    let photoBlob = container.GetBlockBlobReference("photo1.jpg")
 
     // Save blob contents to a file.
     let _ = 
         use fileStream = System.IO.File.OpenWrite(@"path\myfile")
-        blockBlob.DownloadToStream(fileStream);
+        photoBlob.DownloadToStream(fileStream)
 
 You can also use the **DownloadToStream** method to download the contents of a blob as a text string.
 
     // Retrieve reference to a blob named "myblob.txt"
-    let blockBlob2 = container.GetBlockBlobReference("myblob.txt")
+    let photoBlob2 = container.GetBlockBlobReference("myblob.txt")
 
     let text =
         use memoryStream = new MemoryStream()
-        blockBlob2.DownloadToStream(memoryStream)
+        photoBlob2.DownloadToStream(memoryStream)
         System.Text.Encoding.UTF8.GetString(memoryStream.ToArray())
 
 ## Delete blobs
@@ -218,14 +223,11 @@ You can also use the **DownloadToStream** method to download the contents of a b
 To delete a blob, first get a blob reference and then call the
 **Delete** method on it.
 
-    // Retrieve reference to a previously created container.
-    let container = blobClient.GetContainerReference("mycontainer")
-
     // Retrieve reference to a blob named "myblob.txt".
-    let blockBlob = container.GetBlockBlobReference("myblob.txt")
+    let blockBlob3 = container.GetBlockBlobReference("myblob.txt")
 
     // Delete the blob.
-    blockBlob.Delete()
+    blockBlob3.Delete()
 
 ## List blobs in pages asynchronously
 
@@ -235,25 +237,26 @@ This example shows a flat blob listing, but you can also perform a hierarchical 
 
 Because the sample method calls an asynchronous method, it must be prefaced with the `async` keyword, and it must return a **Task** object. The await keyword specified for the **ListBlobsSegmentedAsync** method suspends execution of the sample method until the listing task completes.
 
+
     let ListBlobsSegmentedInFlatListing(container:CloudBlobContainer) =
       async {
 
-        //List blobs to the console window, with paging.
+        // List blobs to the console window, with paging.
         Console.WriteLine("List blobs in pages:")
 
         // Call ListBlobsSegmentedAsync and enumerate the result segment returned, while the continuation token is non-null.
         // When the continuation token is null, the last page has been returned and execution can exit the loop.
 
-        let rec loop continuationToken i = 
+        let rec loop continuationToken (i:int) = 
           async {
             // This overload allows control of the page size. You can return all remaining results
             // by passing null for the maxResults parameter, or by calling a different overload.
             let! ct = Async.CancellationToken
             let! resultSegment = 
-                container.ListBlobsSegmentedAsync("", true, BlobListingDetails.All, 10, continuationToken, null, null, ct) 
+                container.ListBlobsSegmentedAsync("", true, BlobListingDetails.All, Nullable 10, continuationToken, null, null, ct) 
                 |> Async.AwaitTask
 
-            if (resultSegment.Results.Count<IListBlobItem>() > 0) then
+            if (resultSegment.Results |> Seq.length > 0) then
                 Console.WriteLine("Page {0}:", i)
 
             for blobItem in resultSegment.Results do
@@ -261,7 +264,7 @@ Because the sample method calls an asynchronous method, it must be prefaced with
 
             Console.WriteLine()
 
-            //Get the continuation token.
+            // Get the continuation token.
             let continuationToken = resultSegment.ContinuationToken
             if (continuationToken <> null) then
                 do! loop continuationToken (i+1)
@@ -277,32 +280,32 @@ Each block in an append blob can be a different size, up to a maximum of 4 MB, a
 
 The example below creates a new append blob and appends some data to it, simulating a simple logging operation.
 
-    //Get a reference to a container.
+    // Get a reference to a container.
     let appendContainer = blobClient.GetContainerReference("my-append-blobs")
 
-    //Create the container if it does not already exist.
+    // Create the container if it does not already exist.
     appendContainer.CreateIfNotExists()
 
-    //Get a reference to an append blob.
+    // Get a reference to an append blob.
     let appendBlob = appendContainer.GetAppendBlobReference("append-blob.log")
 
-    //Create the append blob. Note that if the blob already exists, the CreateOrReplace() method will overwrite it.
-    //You can check whether the blob exists to avoid overwriting it by using CloudAppendBlob.Exists().
+    // Create the append blob. Note that if the blob already exists, the CreateOrReplace() method will overwrite it.
+    // You can check whether the blob exists to avoid overwriting it by using CloudAppendBlob.Exists().
     appendBlob.CreateOrReplace()
 
     let numBlocks = 10
 
-    //Generate an array of random bytes.
+    // Generate an array of random bytes.
     let rnd = new Random()
     let bytes = Array.zeroCreate<byte>(numBlocks)
     rnd.NextBytes(bytes)
 
-    //Simulate a logging operation by writing text data and byte data to the end of the append blob.
+    // Simulate a logging operation by writing text data and byte data to the end of the append blob.
     for i in 0 .. numBlocks-1 do
-        let msg = String.Format("Timestamp: {0:u} \tLog Entry: {1}{2}",DateTime.UtcNow, bytes[i], Environment.NewLine)
+        let msg = String.Format("Timestamp: {0:u} \tLog Entry: {1}{2}",DateTime.UtcNow, bytes.[i], Environment.NewLine)
         appendBlob.AppendText(msg)
 
-    //Read the append blob to the console window.
+    // Read the append blob to the console window.
     Console.WriteLine(appendBlob.DownloadText())
 
 See [Understanding Block Blobs, Page Blobs, and Append Blobs](https://msdn.microsoft.com/library/azure/ee691964.aspx) for more information about the differences between the three types of blobs.
