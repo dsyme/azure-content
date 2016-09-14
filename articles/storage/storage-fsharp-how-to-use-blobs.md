@@ -61,8 +61,8 @@ For additional examples using Blob storage with .NET, see the C# sampe [Getting 
 
 Add the following `open` statements to the top of the `program.cs` file:
 
-	  open Microsoft.Azure // Namespace for CloudConfigurationManager
-  	open Microsoft.WindowsAzure.Storage // Namespace for CloudStorageAccount
+    open Microsoft.Azure // Namespace for CloudConfigurationManager
+    open Microsoft.WindowsAzure.Storage // Namespace for CloudStorageAccount
     open Microsoft.WindowsAzure.Storage.Blob // Namespace for Blob storage types
 
 ### Parse the connection string
@@ -192,8 +192,8 @@ Optionally, you can set the **UseFlatBlobListing** parameter of of the **ListBlo
 **true**. In this case, every blob in the container is returned as a **CloudBlockBlob** object. The call to **ListBlobs** to return a flat listing looks like this:
 
     // Loop over items within the container and output the length and URI.
-	for item in container.ListBlobs(null, true) do
-	   ...
+    for item in container.ListBlobs(null, true) do
+        ...
 
 and the results look like this:
 
