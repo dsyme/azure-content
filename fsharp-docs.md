@@ -2,7 +2,7 @@
 Sometime in October/November we will take a crack at preparing comprehensive docs for F# for some core Azure topics, where there is 
 value in having thse distinct from the existing .NET (really C#) docs.
 
-Below is a list of the pages which would need an "F#" tab (and we may encourage Azure to rename ".NET" to "C#" or "C#/VB" in nthese cases)
+Below is a list of the pages which would need an "F#" tab (and we may encourage Azure to rename ".NET" to "C#" or "C#/VB" in these cases)
 
 ## Storage
 
