@@ -33,7 +33,7 @@ This article shows you how to perform common scenarios using Blob storage. The s
 
 ### Conceptual overview
 
-For a conceptual overview of blob storage, see [the C# guide for blob storage](storage-csharp-how-to-use-blobs)
+For a conceptual overview of blob storage, see [the C# guide for blob storage](storage-csharp-how-to-use-blobs.md)
 
 ### Create an Azure storage account
 
@@ -83,7 +83,7 @@ Add the following `open` statements to the top of the `Program.fs` or `Script.fs
 ### Get your connection string
 
 For the purposes of this tutorial, you will enter your storage connection string directly into a script.
-For more information about connection strings, see [Configure a Connection String to Azure Storage](storage-configure-connection-string).
+For more information about connection strings, see [Configure a Connection String to Azure Storage](storage-configure-connection-string.md).
 
     let storageConnString = "..." // fill this in from your storage account
 
@@ -370,48 +370,7 @@ By default, Azure Storage keeps your data secure by limiting access to the accou
 By default, the blob data in your storage account is accessible only to storage account owner. Authenticating requests against Blob storage requires the account access key by default. However, you may wish to make certain blob data available to other users. You have two options:
 
 - **Anonymous access:** You can make a container or its blobs publicly available for anonymous access. See [Manage anonymous read access to containers and blobs](storage-manage-access-to-resources.md) for more information.
-- **Shared access signatures:** You can provide clients with a shared access signature (SAS), which provides delegated access to a resource in your storage account, with permissions that you specify and over an interval that you specify. See [Using Shared Access Signatures (SAS)](storage-dotnet-shared-access-signature-part-1.md) for more information.
-
-## Work with shared access signatures
-
-TBD (this is taken from Node docs)
-
-Shared access signatures (SAS) are a secure way to provide granular access to blobs and containers without providing your storage account name or keys. Shared access signatures are often used to provide limited access to your data, such as allowing a mobile app to access blobs.
-
-> [AZURE.NOTE] While you can also allow anonymous access to blobs, shared access signatures allow you to provide more controlled access, as you must generate the SAS.
-
-A trusted application such as a cloud-based service generates shared access signatures using the **generateSharedAccessSignature** of the **BlobService**, and provides it to an untrusted or semi-trusted application such as a mobile app. Shared access signatures are generated using a policy, which describes the start and end dates during which the shared access signatures are valid, as well as the access level granted to the shared access signatures holder.
-
-The following code example generates a new shared access policy that allows the shared access signatures holder to perform read operations on the **myblob** blob, and expires 100 minutes after the time it is created.
-
-	var startDate = new Date();
-	var expiryDate = new Date(startDate);
-	expiryDate.setMinutes(startDate.getMinutes() + 100);
-	startDate.setMinutes(startDate.getMinutes() - 100);
-
-	var sharedAccessPolicy = {
-	  AccessPolicy: {
-	    Permissions: azure.BlobUtilities.SharedAccessPermissions.READ,
-	    Start: startDate,
-	    Expiry: expiryDate
-	  },
-	};
-
-	var blobSAS = blobSvc.generateSharedAccessSignature('mycontainer', 'myblob', sharedAccessPolicy);
-	var host = blobSvc.host;
-
-Note that the host information must be provided also, as it is required when the shared access signatures holder attempts to access the container.
-
-The client application then uses shared access signatures with **BlobServiceWithSAS** to perform operations against the blob. The following gets information about **myblob**.
-
-	var sharedBlobSvc = azure.createBlobServiceWithSas(host, blobSAS);
-	sharedBlobSvc.getBlobProperties('mycontainer', 'myblob', function (error, result, response) {
-	  if(!error) {
-	    // retrieved info
-	  }
-	});
-
-Since the shared access signatures were generated with read-only access, if an attempt is made to modify the blob, an error will be returned.
+- **Shared access signatures:** You can provide clients with a shared access signature (SAS), which provides delegated access to a resource in your storage account, with permissions that you specify and over an interval that you specify. See [Using Shared Access Signatures from C# (SAS)](storage-dotnet-shared-access-signature-part-1.md) for more information.
 
 
 ### Encrypting blob data
@@ -431,7 +390,7 @@ to learn more.
 
 ### Blob storage samples
 
-- [Getting Started with Azure Blob Storage in .NET](https://azure.microsoft.com/documentation/samples/storage-blob-dotnet-getting-started/)
+- [Getting Started with Azure Blob Storage in C#](https://azure.microsoft.com/documentation/samples/storage-blob-dotnet-getting-started/)
 
 ### Blob storage reference
 
