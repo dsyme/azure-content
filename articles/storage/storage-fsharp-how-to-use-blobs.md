@@ -17,7 +17,7 @@
 	ms.author="tamram"/>
 
 
-# Get started with Azure Blob storage using F#
+# Get started with Azure Blob storage using F# 
 
 [AZURE.INCLUDE [storage-selector-blob-include](../../includes/storage-selector-blob-include.md)]
 <br/>
