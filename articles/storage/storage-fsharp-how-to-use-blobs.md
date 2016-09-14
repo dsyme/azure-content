@@ -49,7 +49,7 @@ To create an F# script, create a file `blobs.fsx` in your F# development environ
 
 ### Add namespace declarations
 
-Add the following `open` statements to the top of the `Program.fs` or `Script.fsx` file:
+Add the following `open` statements to the top of the `blobs.fsx` file:
 
     open Microsoft.Azure // Namespace for CloudConfigurationManager
     open Microsoft.WindowsAzure.Storage // Namespace for CloudStorageAccount
