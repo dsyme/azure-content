@@ -29,7 +29,7 @@ Azure Blob storage is a service that stores unstructured data in the cloud as ob
 
 ### About this tutorial
 
-This article shows you how to perform common scenarios using Blob storage. The samples are written using F# using the Azure .NET SDK. The scenarios covered include how to upload, list, download, and delete blobs.
+This article shows you how to perform common scenarios using Blob storage. The samples are written using F# using the Azure Storage Client Library for .NET. The scenarios covered include how to upload, list, download, and delete blobs.
 
 ## Create an F# Application or Start F# Interactive
 
