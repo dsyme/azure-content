@@ -34,8 +34,8 @@ This article shows you how to perform common scenarios using Blob storage. The s
 ## Create an F# Application or Start F# Interactive
 
 The samples in this article can be used in either an F# application or an F# script.
-For instructions on how to create an F# application, see [Create an F# application in Azure App Service].
-For instructions on how to create an F# script, see [Create an F# script accessing Azure Storage].
+For instructions on how to create an F# application, see [Create an F# application in Azure App Service](TBD).
+For instructions on how to create an F# script, see [Create an F# script accessing Azure Storage](TBD).
 
 **Prerequisities:**
 
