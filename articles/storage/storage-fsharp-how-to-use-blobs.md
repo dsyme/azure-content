@@ -31,21 +31,46 @@ Azure Blob storage is a service that stores unstructured data in the cloud as ob
 
 This article shows you how to perform common scenarios using Blob storage. The samples are written using F# using the Azure Storage Client Library for .NET. The scenarios covered include how to upload, list, download, and delete blobs.
 
-## Create an F# Application or Start F# Interactive
+## Conceptual overview
+
+For a conceptual overview of blob storage, see [the C# guide for blob storage](storage-csharp-how-to-use-blobs)
+
+## Create an Azure storage account
+
+To use this guide, you must first [create an Azure storage account](storage-create-storage-account.md#create-a-storage-account).
+
+## Create an F# Script and Start F# Interactive
 
 The samples in this article can be used in either an F# application or an F# script.
-For instructions on how to create an F# application, see [Create an F# application in Azure App Service](TBD).
-For instructions on how to create an F# script, see [Create an F# script accessing Azure Storage](TBD).
+To create an F# script, 
 
 ### Use Nuget or Paket to obtain the package
 
-TBD. Obtain [Azure Storage Client Library for .NET](https://www.nuget.org/packages/WindowsAzure.Storage/)
+If using [Paket](https://fsprojects.github.io/Paket/) as your dependency manager, install the `paket.exe` tool and resolve the `WindowsAzure.Storage` package:
 
-[AZURE.INCLUDE [storage-dotnet-client-library-version-include](../../includes/storage-dotnet-client-library-version-include.md)]
+    frameworks: net45
+    source https://nuget.org/api/v2
 
-[AZURE.INCLUDE [storage-blob-concepts-include](../../includes/storage-blob-concepts-include.md)]
+    nuget WindowsAzure.Storage
 
-[AZURE.INCLUDE [storage-create-account-include](../../includes/storage-create-account-include.md)]
+Now resolve and install the packages:
+
+    > paket install
+
+    Resolving packages for group Main...
+
+Now generate include scripts for the packages:
+
+    > paket generate-include-scripts 
+
+    generating scripts for framework net45
+
+Now reference the packages from your F# script:
+
+    #load @"paket-files/include-scripts/net45/include.windowsazure.storage.fsx"
+
+If using `nuget.exe` as your dependency manager, install and reference the `WindowsAzure.Storage` package, then add references
+to all necessary DLLs.
 
 ### Add namespace declarations
 
@@ -58,28 +83,26 @@ Add the following `open` statements to the top of the `Program.fs` or `Script.fs
 ### Get your connection string
 
 For the purposes of this tutorial, you will enter your storage connection string directly into a script.
-For more information about connection strings, see [Configure a Connection String to Azure Storage](TBD).
+For more information about connection strings, see [Configure a Connection String to Azure Storage](storage-configure-connection-string).
 
     let storageConnString = "..." // fill this in from your storage account
 
 > [AZURE.NOTE] Your storage account key is similar to the root password for your storage account. Always be careful to protect your storage account key. Avoid distributing it to other users, hard-coding it, or saving it in a plain-text file that is accessible to others. Regenerate your key using the Azure Portal if you believe it may have been compromised.
 
 For applications, the best way to maintain your storage connection string is in a configuration file.
-You can use the **CloudConfigurationManager** class to fetch configuration settings regardless of whether the client application is running on the desktop, on a mobile device, in an Azure virtual machine, or in an Azure cloud service.
-
 To fetch the connection string from a configuration file, use:
 
     // Parse the connection string and return a reference to the storage account.
     let storageConnString = CloudConfigurationManager.GetSetting("StorageConnectionString")
 
+Using Azure Configuration Manager is optional. You can also use an API such as the .NET Framework's **ConfigurationManager** class.
+
 ### Parse the connection string
 
-To parse the connection strinng, use:
+To parse the connection string, use:
 
     // Parse the connection string and return a reference to the storage account.
     let storageAccount = CloudStorageAccount.Parse(storageConnString)
-
-Using Azure Configuration Manager is optional. You can also use an API such as the .NET Framework's **ConfigurationManager** class.
 
 ### Create the Blob service client
 
@@ -157,18 +180,18 @@ As shown above, you can name blobs with path information in their names. This cr
 For example, consider the following set of block blobs in a container named `photos`:
 
 	photo1.jpg
-	2010/architecture/description.txt
-	2010/architecture/photo3.jpg
-	2010/architecture/photo4.jpg
-	2011/architecture/photo5.jpg
-	2011/architecture/photo6.jpg
-	2011/architecture/description.txt
-	2011/photo7.jpg
+	2015/architecture/description.txt
+	2015/architecture/photo3.jpg
+	2015/architecture/photo4.jpg
+	2016/architecture/photo5.jpg
+	2016/architecture/photo6.jpg
+	2016/architecture/description.txt
+	2016/photo7.jpg
 
 When you call **ListBlobs** on the 'photos' container (as in the above sample), a hierarchical listing is returned. It contains both **CloudBlobDirectory** and **CloudBlockBlob** objects, representing the directories and blobs in the container, respectively. The resulting output looks like:
 
-	Directory: https://<accountname>.blob.core.windows.net/photos/2010/
-	Directory: https://<accountname>.blob.core.windows.net/photos/2011/
+	Directory: https://<accountname>.blob.core.windows.net/photos/2015/
+	Directory: https://<accountname>.blob.core.windows.net/photos/2016/
 	Block blob of length 505623: https://<accountname>.blob.core.windows.net/photos/photo1.jpg
 
 
@@ -181,13 +204,13 @@ Optionally, you can set the **UseFlatBlobListing** parameter of of the **ListBlo
 
 and the results look like this:
 
-	Block blob of length 4: https://<accountname>.blob.core.windows.net/photos/2010/architecture/description.txt
-	Block blob of length 314618: https://<accountname>.blob.core.windows.net/photos/2010/architecture/photo3.jpg
-	Block blob of length 522713: https://<accountname>.blob.core.windows.net/photos/2010/architecture/photo4.jpg
-	Block blob of length 4: https://<accountname>.blob.core.windows.net/photos/2011/architecture/description.txt
-	Block blob of length 419048: https://<accountname>.blob.core.windows.net/photos/2011/architecture/photo5.jpg
-	Block blob of length 506388: https://<accountname>.blob.core.windows.net/photos/2011/architecture/photo6.jpg
-	Block blob of length 399751: https://<accountname>.blob.core.windows.net/photos/2011/photo7.jpg
+	Block blob of length 4: https://<accountname>.blob.core.windows.net/photos/2015/architecture/description.txt
+	Block blob of length 314618: https://<accountname>.blob.core.windows.net/photos/2015/architecture/photo3.jpg
+	Block blob of length 522713: https://<accountname>.blob.core.windows.net/photos/2015/architecture/photo4.jpg
+	Block blob of length 4: https://<accountname>.blob.core.windows.net/photos/2016/architecture/description.txt
+	Block blob of length 419048: https://<accountname>.blob.core.windows.net/photos/2016/architecture/photo5.jpg
+	Block blob of length 506388: https://<accountname>.blob.core.windows.net/photos/2016/architecture/photo6.jpg
+	Block blob of length 399751: https://<accountname>.blob.core.windows.net/photos/2016/photo7.jpg
 	Block blob of length 505623: https://<accountname>.blob.core.windows.net/photos/photo1.jpg
 
 
@@ -329,7 +352,7 @@ You can acquire a new lease by using the **acquireLease** method, specifying the
 
 TBD
 
-> [AZURE.NOTE] By default, the lease duration is infinite. You can specify a non-infinite duration (between 15 and 60 seconds) by providing the `options.leaseDuration` parameter.
+> [AZURE.NOTE] By default, the lease duration is infinite. You can specify a non-infinite duration (between 15 and 60 seconds) by providing the `LeaseDuration` parameter.
 
 
 ## Naming containers
