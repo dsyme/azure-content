@@ -301,28 +301,32 @@ TBD
         //List blobs to the console window, with paging.
         Console.WriteLine("List blobs in pages:")
 
-        int i = 0;
-        BlobContinuationToken continuationToken = null;
-        BlobResultSegment resultSegment = null;
+        // Call ListBlobsSegmentedAsync and enumerate the result segment returned, while the continuation token is non-null.
+        // When the continuation token is null, the last page has been returned and execution can exit the loop.
 
-        //Call ListBlobsSegmentedAsync and enumerate the result segment returned, while the continuation token is non-null.
-        //When the continuation token is null, the last page has been returned and execution can exit the loop.
-        do
-        {
-            //This overload allows control of the page size. You can return all remaining results by passing null for the maxResults parameter,
-            //or by calling a different overload.
-            resultSegment = await container.ListBlobsSegmentedAsync("", true, BlobListingDetails.All, 10, continuationToken, null, null);
-            if (resultSegment.Results.Count<IListBlobItem>() > 0) { Console.WriteLine("Page {0}:", ++i); }
-            foreach (var blobItem in resultSegment.Results)
-            {
-                Console.WriteLine("\t{0}", blobItem.StorageUri.PrimaryUri);
-            }
-            Console.WriteLine();
+        let rec loop continuationToken i = 
+          async {
+            // This overload allows control of the page size. You can return all remaining results
+            // by passing null for the maxResults parameter, or by calling a different overload.
+            let! ct = Async.CancellationToken
+            let! resultSegment = 
+                container.ListBlobsSegmentedAsync("", true, BlobListingDetails.All, 10, continuationToken, null, null, ct) 
+                |> Async.AwaitTask
+
+            if (resultSegment.Results.Count<IListBlobItem>() > 0) then
+                Console.WriteLine("Page {0}:", i)
+
+            for blobItem in resultSegment.Results do
+                Console.WriteLine("\t{0}", blobItem.StorageUri.PrimaryUri)
+
+            Console.WriteLine()
 
             //Get the continuation token.
-            continuationToken = resultSegment.ContinuationToken;
-        }
-        while (continuationToken != null);
+            let continuationToken = resultSegment.ContinuationToken
+            if (continuationToken <> null) then
+                do! loop continuationToken (i+1)
+          }
+        do! loop null 1
       }
 
 ## Writing to an append blob
@@ -351,22 +355,20 @@ The example below creates a new append blob and appends some data to it, simulat
     //You can check whether the blob exists to avoid overwriting it by using CloudAppendBlob.Exists().
     appendBlob.CreateOrReplace()
 
-    int numBlocks = 10;
+    let numBlocks = 10
 
     //Generate an array of random bytes.
-    Random rnd = new Random();
-    byte[] bytes = new byte[numBlocks];
-    rnd.NextBytes(bytes);
+    let rnd = new Random()
+    let bytes = Array.zeroCreate<byte>(numBlocks)
+    rnd.NextBytes(bytes)
 
     //Simulate a logging operation by writing text data and byte data to the end of the append blob.
-    for (int i = 0; i < numBlocks; i++)
-    {
-        appendBlob.AppendText(String.Format("Timestamp: {0:u} \tLog Entry: {1}{2}",
-            DateTime.UtcNow, bytes[i], Environment.NewLine));
-    }
+    for i in 0 .. numBlocks-1 do
+        let msg = String.Format("Timestamp: {0:u} \tLog Entry: {1}{2}",DateTime.UtcNow, bytes[i], Environment.NewLine)
+        appendBlob.AppendText(msg)
 
     //Read the append blob to the console window.
-    Console.WriteLine(appendBlob.DownloadText());
+    Console.WriteLine(appendBlob.DownloadText())
 
 See [Understanding Block Blobs, Page Blobs, and Append Blobs](https://msdn.microsoft.com/library/azure/ee691964.aspx) for more information about the differences between the three types of blobs.
 
@@ -391,6 +393,24 @@ You can acquire a new lease by using the **acquireLease** method, specifying the
 TBD
 
 > [AZURE.NOTE] By default, the lease duration is infinite. You can specify a non-infinite duration (between 15 and 60 seconds) by providing the `options.leaseDuration` parameter.
+
+
+## Naming containers
+
+[AZURE.INCLUDE [storage-container-naming-rules-include](../../includes/storage-container-naming-rules-include.md)]
+
+## Managing security for blobs
+
+By default, Azure Storage keeps your data secure by limiting access to the account owner, who is in possession of the account access keys. When you need to share blob data in your storage account, it is important to do so without compromising the security of your account access keys. Additionally, you can encrypt blob data to ensure that it is secure going over the wire and in Azure Storage.
+
+[AZURE.INCLUDE [storage-account-key-note-include](../../includes/storage-account-key-note-include.md)]
+
+### Controlling access to blob data
+
+By default, the blob data in your storage account is accessible only to storage account owner. Authenticating requests against Blob storage requires the account access key by default. However, you may wish to make certain blob data available to other users. You have two options:
+
+- **Anonymous access:** You can make a container or its blobs publicly available for anonymous access. See [Manage anonymous read access to containers and blobs](storage-manage-access-to-resources.md) for more information.
+- **Shared access signatures:** You can provide clients with a shared access signature (SAS), which provides delegated access to a resource in your storage account, with permissions that you specify and over an interval that you specify. See [Using Shared Access Signatures (SAS)](storage-dotnet-shared-access-signature-part-1.md) for more information.
 
 ## Work with shared access signatures
 
@@ -433,23 +453,6 @@ The client application then uses shared access signatures with **BlobServiceWith
 
 Since the shared access signatures were generated with read-only access, if an attempt is made to modify the blob, an error will be returned.
 
-
-## Naming containers
-
-[AZURE.INCLUDE [storage-container-naming-rules-include](../../includes/storage-container-naming-rules-include.md)]
-
-## Managing security for blobs
-
-By default, Azure Storage keeps your data secure by limiting access to the account owner, who is in possession of the account access keys. When you need to share blob data in your storage account, it is important to do so without compromising the security of your account access keys. Additionally, you can encrypt blob data to ensure that it is secure going over the wire and in Azure Storage.
-
-[AZURE.INCLUDE [storage-account-key-note-include](../../includes/storage-account-key-note-include.md)]
-
-### Controlling access to blob data
-
-By default, the blob data in your storage account is accessible only to storage account owner. Authenticating requests against Blob storage requires the account access key by default. However, you may wish to make certain blob data available to other users. You have two options:
-
-- **Anonymous access:** You can make a container or its blobs publicly available for anonymous access. See [Manage anonymous read access to containers and blobs](storage-manage-access-to-resources.md) for more information.
-- **Shared access signatures:** You can provide clients with a shared access signature (SAS), which provides delegated access to a resource in your storage account, with permissions that you specify and over an interval that you specify. See [Using Shared Access Signatures (SAS)](storage-dotnet-shared-access-signature-part-1.md) for more information.
 
 ### Encrypting blob data
 
