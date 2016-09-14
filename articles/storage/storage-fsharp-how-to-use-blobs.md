@@ -62,9 +62,7 @@ For more information about connection strings, see [Configure a Connection Strin
 
     let storageConnString = "..." // fill this in from your storage account
 
-> Your storage account key is similar to the root password for your storage account. Always be careful to protect
-> your storage account key. Avoid distributing it to other users, hard-coding it, or saving it in a plain-text file
-> that is accessible to others. Regenerate your key using the Azure Portal if you believe it may have been compromised.
+> [AZURE.NOTE] Your storage account key is similar to the root password for your storage account. Always be careful to protect your storage account key. Avoid distributing it to other users, hard-coding it, or saving it in a plain-text file that is accessible to others. Regenerate your key using the Azure Portal if you believe it may have been compromised.
 
 For applications, the best way to maintain your storage connection string is in a configuration file.
 You can use the **CloudConfigurationManager** class to fetch configuration settings regardless of whether the client application is running on the desktop, on a mobile device, in an Azure virtual machine, or in an Azure cloud service.
@@ -371,6 +369,70 @@ The example below creates a new append blob and appends some data to it, simulat
     Console.WriteLine(appendBlob.DownloadText());
 
 See [Understanding Block Blobs, Page Blobs, and Append Blobs](https://msdn.microsoft.com/library/azure/ee691964.aspx) for more information about the differences between the three types of blobs.
+
+## Concurrent access
+
+To support concurrent access to a blob from multiple clients or multiple process instances, you can use **ETags** or **leases**.
+
+* **Etag** - provides a way to detect that the blob or container has been modified by another process
+
+* **Lease** - provides a way to obtain exclusive, renewable, write or delete access to a blob for a period of time
+
+### ETag
+
+Use ETags if you need to allow multiple clients or instances to write to the block Blob or page Blob simultaneously. The ETag allows you to determine if the container or blob was modified since you initially read or created it, which allows you to avoid overwriting changes committed by another client or process.
+
+TBD
+
+### Lease
+
+You can acquire a new lease by using the **acquireLease** method, specifying the blob or container that you wish to obtain a lease on. For example, the following code acquires a lease on **myblob**.
+
+TBD
+
+> [AZURE.NOTE] By default, the lease duration is infinite. You can specify a non-infinite duration (between 15 and 60 seconds) by providing the `options.leaseDuration` parameter.
+
+## Work with shared access signatures
+
+TBD (this is taken from Node docs)
+
+Shared access signatures (SAS) are a secure way to provide granular access to blobs and containers without providing your storage account name or keys. Shared access signatures are often used to provide limited access to your data, such as allowing a mobile app to access blobs.
+
+> [AZURE.NOTE] While you can also allow anonymous access to blobs, shared access signatures allow you to provide more controlled access, as you must generate the SAS.
+
+A trusted application such as a cloud-based service generates shared access signatures using the **generateSharedAccessSignature** of the **BlobService**, and provides it to an untrusted or semi-trusted application such as a mobile app. Shared access signatures are generated using a policy, which describes the start and end dates during which the shared access signatures are valid, as well as the access level granted to the shared access signatures holder.
+
+The following code example generates a new shared access policy that allows the shared access signatures holder to perform read operations on the **myblob** blob, and expires 100 minutes after the time it is created.
+
+	var startDate = new Date();
+	var expiryDate = new Date(startDate);
+	expiryDate.setMinutes(startDate.getMinutes() + 100);
+	startDate.setMinutes(startDate.getMinutes() - 100);
+
+	var sharedAccessPolicy = {
+	  AccessPolicy: {
+	    Permissions: azure.BlobUtilities.SharedAccessPermissions.READ,
+	    Start: startDate,
+	    Expiry: expiryDate
+	  },
+	};
+
+	var blobSAS = blobSvc.generateSharedAccessSignature('mycontainer', 'myblob', sharedAccessPolicy);
+	var host = blobSvc.host;
+
+Note that the host information must be provided also, as it is required when the shared access signatures holder attempts to access the container.
+
+The client application then uses shared access signatures with **BlobServiceWithSAS** to perform operations against the blob. The following gets information about **myblob**.
+
+	var sharedBlobSvc = azure.createBlobServiceWithSas(host, blobSAS);
+	sharedBlobSvc.getBlobProperties('mycontainer', 'myblob', function (error, result, response) {
+	  if(!error) {
+	    // retrieved info
+	  }
+	});
+
+Since the shared access signatures were generated with read-only access, if an attempt is made to modify the blob, an error will be returned.
+
 
 ## Naming containers
 
