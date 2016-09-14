@@ -7,9 +7,14 @@ value in having thse distinct from the existing .NET/C# docs.
 Below is a list of the pages which may  need an "F#" tab or might benefit from F# content. We may encourage Azure to rename ".NET" to "C#" or "C#/VB" in these cases.
 
 
+Here is the current [fsharp-content](https://github.com/Azure/azure-content/compare/master...dsyme:fsharp-content) with some F# editions of the articles, linked below
+
+
+
+
 ## Storage
 
-- [ ] [Blobs](https://azure.microsoft.com/en-us/documentation/articles/storage-dotnet-how-to-use-blobs/)
+- [ ] [Blobs - F# version](https://github.com/dsyme/azure-content/blob/fsharp-content/articles/storage/storage-fsharp-how-to-use-blobs.md) [C# version](https://azure.microsoft.com/en-us/documentation/articles/storage-dotnet-how-to-use-blobs/)
 - [ ] [Files](https://github.com/Azure/azure-content/blob/master/articles/storage/storage-dotnet-how-to-use-files.md)
 - [ ] [Queues](https://github.com/Azure/azure-content/blob/master/articles/storage/storage-dotnet-how-to-use-queues.md)
 - [ ] [Tables](https://github.com/Azure/azure-content/blob/master/articles/storage/storage-dotnet-how-to-use-tables.md)
