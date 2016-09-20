@@ -14,12 +14,12 @@ Here is the current [fsharp-content](https://github.com/Azure/azure-content/comp
 
 ## Storage
 
-- [ ] [Blobs - F# version](https://github.com/dsyme/azure-content/blob/fsharp-content/articles/storage/storage-fsharp-how-to-use-blobs.md) [C# version](https://azure.microsoft.com/en-us/documentation/articles/storage-dotnet-how-to-use-blobs/)
+- [ ] [Blobs - F# version](https://github.com/dsyme/azure-content/blob/fsharp-content/articles/storage/storage-fsharp-how-to-use-blobs.md) [C# version](https://azure.microsoft.com/en-us/documentation/articles/storage-dotnet-how-to-use-blobs/) [Node version](https://azure.microsoft.com/en-us/documentation/articles/storage-nodejs-how-to-use-blob-storage/)
 - [ ] [Files](https://github.com/Azure/azure-content/blob/master/articles/storage/storage-dotnet-how-to-use-files.md)
 - [ ] [Queues](https://github.com/Azure/azure-content/blob/master/articles/storage/storage-dotnet-how-to-use-queues.md)
 - [ ] [Tables](https://github.com/Azure/azure-content/blob/master/articles/storage/storage-dotnet-how-to-use-tables.md)
-- [ ] [Shared Access Signature Part 1](https://github.com/Azure/azure-content/blob/master/articles/storage/storage-dotnet-shared-access-signature-part-1.md)
-- [ ] [Shared Access Signature Part 2](https://github.com/Azure/azure-content/blob/master/articles/storage/storage-dotnet-shared-access-signature-part-2.md)
+- [ ] [Shared Access Signature Part 1](https://github.com/Azure/azure-content/blob/master/articles/storage/storage-dotnet-shared-access-signature-part-1.md) Note these can likely be covered in the primary Blob storage docs
+- [ ] [Shared Access Signature Part 2](https://github.com/Azure/azure-content/blob/master/articles/storage/storage-dotnet-shared-access-signature-part-2.md) Note these can likely be covered in the primary Blob storage docs
 
 ## WebApps and AppService
 
