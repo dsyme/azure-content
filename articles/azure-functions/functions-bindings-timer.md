@@ -101,6 +101,16 @@ public static void Run(TimerInfo myTimer, TraceWriter log)
 }
 ```
 
+
+## Timer trigger C# code example
+
+This F# code example writes a single log each time the function is triggered.
+
+```fsharp
+let Run(myTimer:TimerInfo, log:TraceWriter) =
+    log.Info(sprintf "F# Timer trigger function executed at: %A" DateTime.Now);    
+```
+
 ## Next steps
 
 [AZURE.INCLUDE [next steps](../../includes/functions-bindings-next-steps.md)] 
