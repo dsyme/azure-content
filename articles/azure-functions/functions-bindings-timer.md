@@ -102,9 +102,9 @@ public static void Run(TimerInfo myTimer, TraceWriter log)
 ```
 
 
-## Timer trigger C# code example
+## Timer trigger F# code example
 
-This F# code example writes a single log each time the function is triggered.
+This F# code example does the same as the C# example above:
 
 ```fsharp
 let Run(myTimer:TimerInfo, log:TraceWriter) =
